@@ -1,0 +1,57 @@
+ {%extends 'base.html'%}
+ 
+ {%block head%}
+ <title>Notes</title>
+
+ {%endblock%} 
+ 
+ {%block body%}
+ <p>
+    Notes for :{{user.username}}
+
+    <a href="/logout/{{user.id}}">
+        Logout
+    </a>
+</p>
+
+ <form action="/notes/{{user.id}}" method="post">
+   Add Note: <input type="text" name="content">
+   <br>
+   <input type="submit" value="Add to Notes">
+</form>   
+<hr>
+<h3>Notes for User:</h3>
+<table>
+<thead>
+    <tr>
+        <th>Note</th>
+        <th>Date Created</th>
+        <th>Date Modified</th>
+        <th>Action</th>
+    </tr>
+</thead>
+<tbody>
+    {%for note in notes%}
+    <tr>
+    <td>{{note.content}}</td>
+    <td>{{note.date_created}}</td>
+    <td>{{note.date_modified}}</td>
+    <td><a href="/delete/{{user.id}}/{{note.id}}">Delete</a>
+        <br>
+    <a href="/update/{{user.id}}/{{note.id}}">Modify</a>
+    </td>
+</tr>
+    {%endfor%}
+</tbody>
+</table>
+{%if modify%}
+<h3>Modify Here</h3>
+ <p>
+    <form action="/update/{{user.id}}/{{note.id}}" method="post">
+        Modify: <input type="text" name="content" value="{{note.content}}">
+        <br>
+        <input type="submit" value="Add to Notes">
+     </form>
+ </p>
+ {%endif%}
+ {%endblock%}
